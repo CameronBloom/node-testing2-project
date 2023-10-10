@@ -21,7 +21,9 @@ Here is a checklist of tasks to help you put your project together:
 [x] Configure jest and eslint using `npx <libname> --init`.
 [x] Create a `knexfile.js` with "development" and "testing" configurations.
 [x] Create a `db-config.js` file that selects the correct configuration using the value of `process.env.NODE_ENV`.
-- Create migration and seed files.
+[x] Create migration and seed files.
+  - `knex migrate:make create-drivers`
+  - `knex seed:make 001-drivers`
 - Put together "start", "server", "rollback", "migrate" and "seed" scripts in your `package.json`.
 - Create a "test" script in your `package.json` using cross-env to inject a `NODE_ENV` of "testing".
 - Create a basic express application with a few database access functions and a few endpoints.
