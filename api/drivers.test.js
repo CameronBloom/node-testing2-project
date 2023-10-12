@@ -32,6 +32,34 @@ describe("drivers model function", () => {
       await Driver.createDriver(driver1)
       drivers = await db("drivers")
       expect(drivers).toHaveLength(1)
+
+      await Driver.createDriver(driver2)
+      drivers = await db("drivers")
+      expect(drivers).toHaveLength(2)
+
+      await Driver.createDriver(driver3)
+      drivers = await db("drivers")
+      expect(drivers).toHaveLength(3)
+    })
+    it("inserted driver id, first name, and last name", async () =>{
+      const driver = await Driver.createDriver(driver1)
+      expect(driver).toMatchObject({ driver_id: 1, ...driver})
+    })
+  })
+  describe("[DELETE] driver endpoint", () => {
+    it("removes driver from the db", async () => {
+      const [driver_id] = await db("drivers").insert(driver1)
+      let driver = await db("drivers").where({ driver_id }).first()
+      expect(driver).toBeTruthy()
+
+      await request(server).delete(`/drivers/${ driver_id }`)
+      driver = await db("drivers").where({ driver_id }).first()
+      expect(driver).toBeFalsy()
+    })
+    it("respond with the deleted driver", async() => {
+      const [driver_id] = await db("drivers").insert(driver1)
+      let driver = await request(server).delete(`/drivers/${ driver_id }`)
+      expect(driver.body).toMatchObject(driver1)
     })
   })
 })

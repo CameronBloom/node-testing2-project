@@ -5,6 +5,13 @@ async function createDriver(driver) {
   return db("drivers").where("driver_id", id).first()   // find the newly created record
 }
 
+async function deleteDriver(id) {
+  const driver = await db("drivers").where("driver_id", id).first()
+  await db("drivers").where("driver_id", id).del()
+  return driver
+}
+
 module.exports = {
-  createDriver
+  createDriver,
+  deleteDriver,
 }
